@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import HeaderComponent from './HeaderComponent';
 import EmpLogin from './EmpLogin';
 import Menu from './Menu';
+import PRODUCTOS from './Products';
+
 class Main extends Component{
 
     constructor(props){
@@ -13,8 +15,7 @@ class Main extends Component{
         return(
             <div>
                 <HeaderComponent></HeaderComponent>
-                <EmpLogin></EmpLogin>
-                <Menu/>
+                <Menu productos = {PRODUCTOS}></Menu>
             </div>
             );
     }

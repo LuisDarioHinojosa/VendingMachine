@@ -1,21 +1,24 @@
 let PRODUCTOS = [
     {
-        NOMBRE:"crujitos",
+        NOMBRE:"Crujitos",
         EXISTENCIAS: 3,
         PRECIO: 10,
-        imagen:"./images/crujitos.png"
+        imagen:"./images/crujitos.png",
+        id:1
     },
     {
-        NOMBRE:"oreo",
+        NOMBRE:"Oreo",
         EXISTENCIAS: 3,
         PRECIO: 10,
-        imagen:"./images/oreo.png"
+        imagen:"./images/oreo.png",
+        id:2
     },
     {
-        NOMBRE:"awa",
+        NOMBRE:"Awa",
         EXISTENCIAS: 3,
         PRECIO: 10,
-        imagen:"./images/agua.png"
+        imagen:"./images/agua.png",
+        id:3
     }
 ];
 

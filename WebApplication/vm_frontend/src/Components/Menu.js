@@ -1,44 +1,57 @@
 import React, {Component} from 'react';
-import PRODUCTOS from './Products';
 import {
-    Card, CardText, CardBody, CardLink,
-    CardTitle, CardSubtitle
+    Card, Button, CardImg, CardTitle, CardText, CardGroup,
+    CardSubtitle, CardBody,Row,Col,Badge
 } from 'reactstrap';
 
-function Cards(props){
-    return (
-        <div>
+/*
+    Dependiendo del id del producto seleccionar el que se ponga bien
+*/
+
+class Menu extends Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return(
+        <CardGroup>
         {
             this.props.productos.map((producto) =>{
                 return(
-                    <Card>
+                    <Card className="text-center">
+                        <CardImg top width="100%" src={producto.imagen} alt="Card image cap" />
                         <CardBody>
-                            <CardTitle tag="h5">{producto.NOMBRE}</CardTitle>
-                            <CardSubtitle tag="h6" className="mb-2 text-muted">{producto.EXISTENCIAS}</CardSubtitle>
+                            <Row>
+                                <Col>
+                                    <CardTitle tag="h5">
+                                        <h1>
+                                            {producto.NOMBRE} 
+                                            <Badge color ="danger">{producto.PRECIO} $</Badge>
+                                        </h1>
+                                    </CardTitle>
+                                </Col>
+                            </Row>
+                            <Row className ="rowCol">
+                                <Col>
+                                    <h3>
+                                        {producto.EXISTENCIAS} en existencias
+                                    </h3>
+                                </Col>
+                            </Row>
+                            <Row className ="rowCol">
+                                <Col className="align-self-center">
+                                    <Button color="success" className>Seleccionar</Button>
+                                </Col>
+                            </Row>
                         </CardBody>
                     </Card>
                 );
             })
         }
-        </div>
-    );
-}
-
-class Menu extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            productos : PRODUCTOS
-        }
+        </CardGroup>
+        );
     }
-
-    render(){
-        return(
-            <div>
-            </div>
-        );   
-    }
+    
 }
-
 
 export default Menu;
