@@ -6,6 +6,7 @@ from 'reactstrap';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './styles.css';
+import HandleLogin from './HandleLogin';
 
 
 class EmpLogin extends Component{
@@ -16,6 +17,7 @@ class EmpLogin extends Component{
             modalOpen: false
         }
         this.toogleModal = this.toogleModal.bind(this);
+        this.loginPage = this.loginPage.bind(this);
 
     }
 
@@ -23,6 +25,13 @@ class EmpLogin extends Component{
         this.setState({modalOpen:!this.state.modalOpen});
     }   
 
+    loginPage(username,password){
+        let user = this.props.empleados.filter((person) => (person.Matricula == username))[0];
+
+        console.log(this.props.empleados);
+        console.log(user);
+        alert(user);
+    }
 
     render(){
         return(
@@ -43,7 +52,7 @@ class EmpLogin extends Component{
 
                         <Row className ="rowCol">
                             <Col sm ={{size:3,offset:4}} className="text-center">
-                                <Button color="danger"  onClick ={this.toogleModal}> <h4> <FontAwesomeIcon icon = {faList}/> Menu</h4> </Button>
+                                <Button color="danger" id ="modalButton"  onClick ={this.toogleModal}> <h4> <FontAwesomeIcon icon = {faList}/> Menu</h4> </Button>
                             </Col>
                         </Row>
 
@@ -60,10 +69,10 @@ class EmpLogin extends Component{
                 <ModalBody className="loginBody">
                     <Form >
                         <FormGroup>
-                            <Input type="email" name="email" id="exampleEmail" placeholder=" Email" />
+                            <Input type="user" id = "usuario" name="user"  placeholder=" Usuario" />
                         </FormGroup>
                         <FormGroup>
-                            <Input type="password" name="password" id="examplePassword" placeholder=" Password" />
+                            <Input type="password" id = "contraseña" name="password" placeholder=" Contraseña" />
                         </FormGroup>
 
                         <FormGroup check>
@@ -74,7 +83,7 @@ class EmpLogin extends Component{
                     </Form>
                 </ModalBody>
                 <ModalFooter className="loginFooter">
-                    <Button variant ="success" size="lg" block>Entrar</Button>
+                    <Button variant ="success" id ="logButton" size="lg" block     >Entrar</Button>
                     <a className="forgotLink" href="">Olvidaste tu contraseña?</a>
                 </ModalFooter>
             </Modal>
@@ -85,6 +94,6 @@ class EmpLogin extends Component{
     }
 
 }
-
+//onClick = {this.loginPage(document.getElementById("inputUser"),document.getElementById("inputPassword"))}
 
 export default EmpLogin;

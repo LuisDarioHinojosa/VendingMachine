@@ -9,14 +9,15 @@ import '@fortawesome/free-regular-svg-icons';
 import '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/free-solid-svg-icons'
 import '@fortawesome/fontawesome-svg-core';
+import {BrowserRouter} from 'react-router-dom';
 
 //import { faMapMarkedAlt, faPhoneAlt} from '@fortawesome/free-solid-svg-icons'
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <App />
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
