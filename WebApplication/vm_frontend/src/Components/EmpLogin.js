@@ -83,7 +83,7 @@ class EmpLogin extends Component{
                     </Form>
                 </ModalBody>
                 <ModalFooter className="loginFooter">
-                    <Button variant ="success" id ="logButton" size="lg" block     >Entrar</Button>
+                    <Button variant ="success" id ="logButton" size="lg" block  onClick = {this.loginPage(document.getElementById("inputUser"),document.getElementById("inputPassword"))}   >Entrar</Button>
                     <a className="forgotLink" href="">Olvidaste tu contraseña?</a>
                 </ModalFooter>
             </Modal>
