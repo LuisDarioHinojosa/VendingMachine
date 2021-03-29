@@ -12,7 +12,15 @@ import HandleLogin from './HandleLogin'; // protected route class
 
 
 // form validation functions
+// for username
+const usernameFormat = (username) => {
+    let regEx = new RegExp('^A[0-9]{8}');
+    return regEx.test(username);
+};
 
+
+// both
+const required = (value) => value && value.length;
 
 
 class EmpLogin extends Component{
@@ -80,7 +88,21 @@ class EmpLogin extends Component{
                                 <Label for ="username"><h4><FontAwesomeIcon icon ={faUserCircle}/> Usuario</h4></Label>
                             </Col>
                             <Col >
-                                <Control.text model = ".username" id="username"/>
+                                <Control.text model = ".username" id="username" validators = 
+                                {{
+                                    required,
+                                    usernameFormat
+                                }}/>
+                                <Errors
+                                    className="text-danger"
+                                    model = ".username"
+                                    show = "touched"
+                                    messages = {{
+                                        required:"Este campo es requerido\n",
+                                        usernameLenght:"El tamaño de las claves de usario siempte es de 9 dijitos\n",
+                                        usernameFormat:"El formato debe de ser: A+dddddddd\n"
+                                    }}
+                                />
                             </Col>
                         </Row>
                         <Row>
@@ -88,7 +110,15 @@ class EmpLogin extends Component{
                                 <Label for ="password"><h5><FontAwesomeIcon icon ={faUnlockAlt}/> Contraseña</h5></Label>
                             </Col>
                             <Col>
-                                <Control.text type="password" model = ".password" id = "password"/>
+                                <Control.text type="password" model = ".password" id = "password" validators = {{required}}/>
+                                <Errors
+                                    className="text-danger"
+                                    model = ".password"
+                                    show = "touched"
+                                    messages = {{
+                                        required:"Este campo es requerido\n"
+                                    }}
+                                />
                             </Col>
                         </Row>
                         <ModalFooter className="loginFooter">
