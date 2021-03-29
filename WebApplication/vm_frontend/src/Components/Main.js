@@ -4,8 +4,17 @@ import EmpLogin from './EmpLogin';
 import Menu from './Menu';
 import {Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import HandleLogin from './HandleLogin';
-
+import {connect} from 'react-redux';
 //import PRODUCTOS from '../DB/Products';
+
+
+const mapStateToProps = state =>{
+    return{
+        empleados: state.empleados,
+        productos: state.productos,
+        compras: state.compras
+    }
+}
 
 class Main extends Component{
 
@@ -21,7 +30,6 @@ class Main extends Component{
                 <HeaderComponent/>
                 <Switch>
                     <Route exact path ="/login" component={() =><EmpLogin empleados = {this.props.empleados}/>}/>
-                    <Redirect to = "/login"/>
                     <Route exact path ="/menu" component={() =><Menu empleado = {HandleLogin.user} productos = {this.props.productos}/>}/>
                 </Switch>
             </div>
@@ -30,4 +38,4 @@ class Main extends Component{
 
 }
 
-export default withRouter(Main);
+export default withRouter(connect(mapStateToProps)(Main));

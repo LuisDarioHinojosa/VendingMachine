@@ -25,12 +25,11 @@ class EmpLogin extends Component{
         this.setState({modalOpen:!this.state.modalOpen});
     }   
 
-    loginPage(username,password){
-        let user = this.props.empleados.filter((person) => (person.Matricula == username))[0];
-
+    loginPage(){
+        //let user = this.props.empleados.filter((person) => (person.Matricula == username))[0];
         console.log(this.props.empleados);
-        console.log(user);
-        alert(user);
+        //console.log(user);
+        alert("USER");
     }
 
     render(){
@@ -52,7 +51,7 @@ class EmpLogin extends Component{
 
                         <Row className ="rowCol">
                             <Col sm ={{size:3,offset:4}} className="text-center">
-                                <Button color="danger" id ="modalButton"  onClick ={this.toogleModal}> <h4> <FontAwesomeIcon icon = {faList}/> Menu</h4> </Button>
+                                <Button color="danger"   onClick ={this.toogleModal}> <h4> <FontAwesomeIcon icon = {faList}/> Menu</h4> </Button>
                             </Col>
                         </Row>
 
@@ -65,26 +64,26 @@ class EmpLogin extends Component{
             </div>
 
             <Modal className="formFont"  isOpen={this.state.modalOpen} toggle={this.toogleModal}>
-                <ModalHeader contentClassName="loginHeader" toggle={this.toogleModal}>Iniciar Sesion</ModalHeader>
+                <ModalHeader contentclassname="loginHeader" toggle={this.toogleModal}>Iniciar Sesion</ModalHeader>
                 <ModalBody className="loginBody">
                     <Form >
                         <FormGroup>
-                            <Input type="user" id = "usuario" name="user"  placeholder=" Usuario" />
+                            <Input type="user" id = "inputUser" name="user"  placeholder=" Usuario" />
                         </FormGroup>
                         <FormGroup>
-                            <Input type="password" id = "contraseña" name="password" placeholder=" Contraseña" />
-                        </FormGroup>
-
-                        <FormGroup check>
-                            <Label check>
-                            <Input type="checkbox" />{' '} Mantener Session
-                            </Label>
+                            <Input type="password" id = "inputPassword" name="password" placeholder=" Contraseña" />
                         </FormGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter className="loginFooter">
-                    <Button variant ="success" id ="logButton" size="lg" block  onClick = {this.loginPage(document.getElementById("inputUser"),document.getElementById("inputPassword"))}   >Entrar</Button>
-                    <a className="forgotLink" href="">Olvidaste tu contraseña?</a>
+                    <Button variant ="success" type="submit" id ="logButton" size="lg" block onClick = {()=>{
+                        let username = document.getElementById("inputUser");
+                        let password = document.getElementById("inputPassword")
+                        let user = this.props.empleados.filter((person) => (person.Matricula == username && password == person.Contraseña))[0];
+                        console.log(user);
+
+                    
+                    }}>Entrar</Button>
                 </ModalFooter>
             </Modal>
 
