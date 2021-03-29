@@ -1,8 +1,16 @@
-import {createStore} from 'redux';
-import {Reducer,initialState} from './Reducer';
+import {createStore,combineReducers} from 'redux';
+import {empleadosReducer} from './empleadosReducer';
+import {comprasReducer} from './comprasReducer';
+import {productosReducer} from './productosReducer';
 
 export const configureStore = () =>{
-    const store = createStore(Reducer,initialState);
+    const store = createStore(
+        combineReducers(
+        {
+            empleados:empleadosReducer,
+            compras:comprasReducer,
+            productos:productosReducer    
+        }));
     return store;
 }
 

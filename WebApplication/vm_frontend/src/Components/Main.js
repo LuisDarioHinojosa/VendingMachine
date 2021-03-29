@@ -31,6 +31,7 @@ class Main extends Component{
                 <Switch>
                     <Route exact path ="/login" component={() =><EmpLogin empleados = {this.props.empleados}/>}/>
                     <Route exact path ="/menu" component={() =><Menu empleado = {HandleLogin.user} productos = {this.props.productos}/>}/>
+                    <Redirect to="/login"/>
                 </Switch>
             </div>
             );
