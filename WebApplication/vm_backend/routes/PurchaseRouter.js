@@ -1,22 +1,17 @@
 const express = require('express');
 const connection = require('./DV_connector');
-const EmployeeRouter = express.Router();
+const PurchaseRouter = express.Router();
 
 const connector = require('./DV_connector');
 
 
-EmployeeRouter.use(express.json());
-
-EmployeeRouter.route('/')
-
+PurchaseRouter.route('/')
 .get(
     (req,res,next) =>{
-        connection.query('select * from employees',
+        connection.query('select * from purchase_track;',
             (err,rows,fields) => {
                 if(!err){
                     res.json(rows);
-                    //res.statusCode = 200;
-                    //res.setHeader('Content-Type','application/json')
                 }else{
                     console.log(err);
                     next();
@@ -27,22 +22,21 @@ EmployeeRouter.route('/')
 )
 .post(
     (req,res,next) =>{
-        const {name,emp_id,password} = req.body;
-        const querry = `CALL PUSH_EMPLOYEE(?,?,?);`;
+        const {emp_id,sat_code,p_date} = req.body;
+        const querry = `CALL PUSH_PURCHASE(?,?,?);`;
 
-        connection.query(querry,[name,emp_id,password],
+        connection.query(querry,[emp_id,sat_code,p_date],
             (err,rows,fields) => {
                 if(!err){
                     res.json(rows);
-                    //res.statusCode = 200;
-                    //res.setHeader('Content-Type','application/json')
+
                 }else{
                     console.log(err);
                     next();
                 }
             }
         );
-    }    
+    }  
 )
 /*
 .put(
@@ -51,12 +45,10 @@ EmployeeRouter.route('/')
 */
 .delete(
     (req,res,next) =>{
-        connection.query('delete from employees',
+        connection.query('delete from purchase_track',
             (err,rows,fields) => {
                 if(!err){
                     res.json(rows);
-                    //res.statusCode = 200;
-                    //res.setHeader('Content-Type','application/json')
                 }else{
                     console.log(err);
                     next();
@@ -67,6 +59,7 @@ EmployeeRouter.route('/')
 );
 
 
-//EmployeeRouter.route('/:id').get().push().put().delete();
+//PurchaseRouter.route('/:id').get().push().put().delete();
 
-module.exports = EmployeeRouter;
+
+module.exports = PurchaseRouter;
