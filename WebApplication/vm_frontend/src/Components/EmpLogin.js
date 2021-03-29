@@ -1,12 +1,18 @@
 import React,{Component} from 'react';
 import { Card, CardTitle, CardText, CardImg, CardImgOverlay, Button, Container,Row,Col
-,Modal,ModalBody,ModalFooter,ModalHeader, timeoutsShape,Form,FormGroup,Label,Input} 
+,Modal,ModalBody,ModalFooter,ModalHeader, timeoutsShape,Label} 
 from 'reactstrap';
+import {Control,LocalForm,Errors} from 'react-redux-form';
 
-import { faList } from '@fortawesome/free-solid-svg-icons';
+
+import { faList, faUserCircle,faUnlockAlt} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './styles.css';
-import HandleLogin from './HandleLogin';
+import HandleLogin from './HandleLogin'; // protected route class
+
+
+// form validation functions
+
 
 
 class EmpLogin extends Component{
@@ -17,7 +23,7 @@ class EmpLogin extends Component{
             modalOpen: false
         }
         this.toogleModal = this.toogleModal.bind(this);
-        this.loginPage = this.loginPage.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
 
     }
 
@@ -25,11 +31,12 @@ class EmpLogin extends Component{
         this.setState({modalOpen:!this.state.modalOpen});
     }   
 
-    loginPage(){
-        //let user = this.props.empleados.filter((person) => (person.Matricula == username))[0];
-        console.log(this.props.empleados);
-        //console.log(user);
-        alert("USER");
+    // this currently recognices if the form´s input matches with any input of the database
+    handleLogin(values){
+        let utilisitaeur = values["username"];
+        let motdupas = values["password"];
+        let user = this.props.empleados.filter((person) => (person.Matricula == utilisitaeur && person.Contraseña == motdupas))[0];
+        alert(JSON.stringify(user));
     }
 
     render(){
@@ -66,33 +73,37 @@ class EmpLogin extends Component{
             <Modal className="formFont"  isOpen={this.state.modalOpen} toggle={this.toogleModal}>
                 <ModalHeader contentclassname="loginHeader" toggle={this.toogleModal}>Iniciar Sesion</ModalHeader>
                 <ModalBody className="loginBody">
-                    <Form >
-                        <FormGroup>
-                            <Input type="user" id = "inputUser" name="user"  placeholder=" Usuario" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Input type="password" id = "inputPassword" name="password" placeholder=" Contraseña" />
-                        </FormGroup>
-                    </Form>
+
+                    <LocalForm onSubmit={(values) => this.handleLogin(values)}>
+                        <Row>
+                            <Col sm = {{size:4, offset:1}}>
+                                <Label for ="username"><h4><FontAwesomeIcon icon ={faUserCircle}/> Usuario</h4></Label>
+                            </Col>
+                            <Col >
+                                <Control.text model = ".username" id="username"/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col sm = {{size:4, offset:1}}>
+                                <Label for ="password"><h5><FontAwesomeIcon icon ={faUnlockAlt}/> Contraseña</h5></Label>
+                            </Col>
+                            <Col>
+                                <Control.text type="password" model = ".password" id = "password"/>
+                            </Col>
+                        </Row>
+                        <ModalFooter className="loginFooter">
+                            <Button color ="info" type="submit" id ="logButton" size="lg" block>Entrar</Button>
+                        </ModalFooter>
+                    </LocalForm>
+
                 </ModalBody>
-                <ModalFooter className="loginFooter">
-                    <Button variant ="success" type="submit" id ="logButton" size="lg" block onClick = {()=>{
-                        let username = document.getElementById("inputUser");
-                        let password = document.getElementById("inputPassword")
-                        let user = this.props.empleados.filter((person) => (person.Matricula == username && password == person.Contraseña))[0];
-                        console.log(user);
-
-                    
-                    }}>Entrar</Button>
-                </ModalFooter>
             </Modal>
-
-
             </React.Fragment>
             );
     }
 
 }
-//onClick = {this.loginPage(document.getElementById("inputUser"),document.getElementById("inputPassword"))}
+
+
 
 export default EmpLogin;
