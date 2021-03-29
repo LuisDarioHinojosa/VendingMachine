@@ -39,11 +39,23 @@ ProductRouter.route('/')
         );
     }  
 )
-/*
 .put(
-
+    (req,res,next) =>{
+        const {sat_code, supply}  = req.body;
+        const querry = `CALL PUT_PRODUCT(?,?);`;
+        connection.query(querry,[sat_code, supply],
+            (err,rows,fields) =>{
+                if(!err){
+                    res.json(rows);
+                }
+                else{
+                    console.log(err);
+                    next();
+                }
+            }    
+        );
+    }
 )
-*/
 .delete(
     (req,res,next) =>{
         connection.query('delete from products',
@@ -63,7 +75,53 @@ ProductRouter.route('/')
 
 
 
-//ProductRouter.route('/:id').get().push().put().delete();
+ProductRouter.route('/:id')
+.get(
+    (req,res,next) =>{
+        const {id} = req.params;
+        connection.query('select * from products where sat_code = ?',[id],
+            (err,rows,fields) => {
+                if(!err){
+                    res.json(rows);
+                }else{
+                    console.log(err);
+                    next();
+                }
+            }
+        );
+    }
+)
+/*
+.post(
+    (req,res,next) =>{
+        console.log('POST operation not suported on /products/'+req.params.id + "\nerror: 403");
+    }
+)
+.put(    
+    (req,res,next) =>{
+        const id = req.params;
+        console.log('PUT operation not suported on /products/'+req.params.id + "\nerror: 403");
+
+    }
+)
+*/
+.delete(
+    (req,res,next) =>{
+        const {id} = req.params;
+        connection.query('delete from products where sat_code = ?',[id],
+            (err,rows,fields) => {
+                if(!err){
+                    res.json(rows);
+                    console.log("product deleted");
+                }else{
+                    console.log(err);
+                    next();
+                }
+            }
+        );
+    }
+);
+
 
 
 
