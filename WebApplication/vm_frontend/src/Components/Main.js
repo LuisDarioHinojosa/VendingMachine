@@ -6,6 +6,8 @@ import {Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import HandleLogin from './HandleLogin';
 import {connect} from 'react-redux';
 //import PRODUCTOS from '../DB/Products';
+import {fetchProducts} from '../redux/ActionCreators';
+
 
 
 const mapStateToProps = state =>{
@@ -15,11 +17,21 @@ const mapStateToProps = state =>{
         compras: state.compras
     }
 }
+const mapDispatchToProps = dispatch =>({
+    fetchProducts: ()=>{dispatch(fetchProducts())}
+});
+
+
+
+
 
 class Main extends Component{
 
     constructor(props){
         super(props);
+    }
+    componentDidMount(){
+        this.props.fetchProducts();
     }
 
 //                 <Menu productos = {this.props.productos}></Menu>
@@ -30,7 +42,7 @@ class Main extends Component{
                 <HeaderComponent/>
                 <Switch>
                     <Route exact path ="/login" component={() =><EmpLogin empleados = {this.props.empleados}/>}/>
-                    <Route exact path ="/menu" component={() =><Menu empleado = {HandleLogin.user} productos = {this.props.productos}/>}/>
+                    <Route exact path ="/menu" component={() =><Menu productsLoading = {this.props.productsLoading} errMessage = {this.props.errMessage}  empleado = {HandleLogin.user} productos = {this.props.productos}/>}/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>
@@ -39,4 +51,4 @@ class Main extends Component{
 
 }
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
