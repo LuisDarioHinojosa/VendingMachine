@@ -1,6 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 import PRODUCTOS from '../DB/Products';
 import {baseURL} from '../DB/baseURL';
+import configureStore from './configureStore';
 
 // // PRODUCT ACTION CREATORS
 
@@ -85,3 +86,15 @@ export const fetchEmployees = ()=>(dispatch)=>{
             .catch(error=>dispatch(employeesFailed(error.message)));
 
 };
+
+
+
+
+// USER AUTHENTICATION ACTION CREATORS
+
+export const requestLogin = (user) =>({type:ActionTypes.USER_LOGIN_REQUEST,payload:user});
+export const loginSuccess = (user) =>({type:ActionTypes.USER_LOGIN_SUCCESS,payload:user});
+export const loginFailure = (errMessage) =>({type:ActionTypes.USER_LOGIN_FAILURE,payload:errMessage});
+export const userLogout = () => ({type:ActionTypes.USER_LOGOUT});
+
+

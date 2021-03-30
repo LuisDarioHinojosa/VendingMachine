@@ -12,8 +12,7 @@ ProductRouter.route('/').options(cors.corsWithOptions,(req,res) =>{res.sendStatu
             (err,rows,fields) => {
                 if(!err){
                     res.json(rows);
-                    //res.statusCode = 200;
-                    //res.setHeader('Content-Type','application/json')
+
                 }else{
                     console.log(err);
                     next();
@@ -92,20 +91,7 @@ ProductRouter.route('/:id').options(cors.corsWithOptions,(req,res) =>{res.sendSt
         );
     }
 )
-/*
-.post(
-    (req,res,next) =>{
-        console.log('POST operation not suported on /products/'+req.params.id + "\nerror: 403");
-    }
-)
-.put(    
-    (req,res,next) =>{
-        const id = req.params;
-        console.log('PUT operation not suported on /products/'+req.params.id + "\nerror: 403");
 
-    }
-)
-*/
 .delete(cors.corsWithOptions,
     (req,res,next) =>{
         const {id} = req.params;
