@@ -19,13 +19,13 @@ class Menu extends Component{
             this.props.productos.map((producto) =>{
                 return(
                     <Card className="text-center">
-                        <CardImg top width="100%" src={producto.imagen} alt="Card image cap" />
+                        <CardImg top width="100%" src={producto.image} alt="Card image cap" />
                         <CardBody>
                             <Row>
                                 <Col>
                                     <CardTitle tag="h5">
                                         <h1>
-                                            {producto.NOMBRE} 
+                                            {producto.name} 
                                             <Badge color ="danger">{producto.PRECIO} $</Badge>
                                         </h1>
                                     </CardTitle>
@@ -34,7 +34,7 @@ class Menu extends Component{
                             <Row className ="rowCol">
                                 <Col>
                                     <h3>
-                                        {producto.EXISTENCIAS} en existencias
+                                        {producto.supply} en existencias
                                     </h3>
                                 </Col>
                             </Row>

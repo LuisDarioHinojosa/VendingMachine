@@ -48,7 +48,7 @@ class Main extends Component{
 
                     <Route exact path ="/menu" component={() =>
                         <Menu 
-                        productos = {this.props.productos}/>}/>
+                        productos = {this.props.productos.products}/>}/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>
