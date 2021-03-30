@@ -6,7 +6,7 @@ import {Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import HandleLogin from './HandleLogin';
 import {connect} from 'react-redux';
 //import PRODUCTOS from '../DB/Products';
-import {fetchProducts} from '../redux/ActionCreators';
+import {fetchProducts,fetchEmployees} from '../redux/ActionCreators';
 
 
 
@@ -18,7 +18,8 @@ const mapStateToProps = state =>{
     }
 }
 const mapDispatchToProps = dispatch =>({
-    fetchProducts: ()=>{dispatch(fetchProducts())}
+    fetchProducts: ()=>{dispatch(fetchProducts())},
+    fetchEmployees: () =>{dispatch(fetchEmployees())}
 });
 
 
@@ -32,17 +33,22 @@ class Main extends Component{
     }
     componentDidMount(){
         this.props.fetchProducts();
+        this.props.fetchEmployees();
     }
 
-//                 <Menu productos = {this.props.productos}></Menu>
 
     render(){
         return(
             <div>
                 <HeaderComponent/>
                 <Switch>
-                    <Route exact path ="/login" component={() =><EmpLogin empleados = {this.props.empleados}/>}/>
-                    <Route exact path ="/menu" component={() =><Menu productsLoading = {this.props.productsLoading} errMessage = {this.props.errMessage}  empleado = {HandleLogin.user} productos = {this.props.productos}/>}/>
+                    <Route exact path ="/login" component={() =>
+                        <EmpLogin empleados = {this.props.empleados.employees}
+                        />}/>
+
+                    <Route exact path ="/menu" component={() =>
+                        <Menu 
+                        productos = {this.props.productos}/>}/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>

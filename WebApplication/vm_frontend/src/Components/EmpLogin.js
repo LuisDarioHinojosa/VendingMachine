@@ -43,7 +43,7 @@ class EmpLogin extends Component{
     handleLogin(values){
         let utilisitaeur = values["username"];
         let motdupas = values["password"];
-        let user = this.props.empleados.filter((person) => (person.Matricula == utilisitaeur && person.Contraseña == motdupas))[0];
+        let user = this.props.empleados.filter((person) => (person.emp_id == utilisitaeur && person.password == motdupas))[0];
         alert(JSON.stringify(user));
     }
 

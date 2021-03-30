@@ -1,6 +1,5 @@
-import PRODUCTOS from '../DB/Products';
 import * as ActionTypes from './ActionTypes';
-
+/*
 export const productosReducer = (
     state = {
         errMessage: null,
@@ -10,11 +9,30 @@ export const productosReducer = (
     action) =>{
     switch(action.type){
         case ActionTypes.ADD_PRODUCTS:
-            return {...state,isLoading:false,errMessage:null,products:action.payload};
+            return {...state,isLoading:false,products:action.payload};
         case ActionTypes.PRODUCTS_FAILED:
             return{...state,isLoading:false,errMessage:action.payload};
         case ActionTypes.PRODUCTS_LOADING:
             return{...state,isLoading:true,errMessage:null,products:[]};
+        default:
+            return state;
+    }
+}
+*/
+
+import PRODUCTOS from '../DB/Products'
+export const productosReducer = (state = PRODUCTOS,action) =>{
+    switch(action.type){
+        default:
+            return state;
+    }
+}
+
+
+
+
+
+/*
         case ActionTypes.UPDATE_PRODUCT:
             if(state.products){
                 for (let i in state.products){
@@ -26,9 +44,5 @@ export const productosReducer = (
             else{
                 return state;
             }
-        default:
-            return state;
-    }
-}
-
+*/
 //this.props.empleados.filter((person) => (person.Matricula == utilisitaeur && person.Contraseña == motdupas))[0];
