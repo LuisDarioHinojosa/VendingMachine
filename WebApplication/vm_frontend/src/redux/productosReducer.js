@@ -1,28 +1,15 @@
 import * as ActionTypes from './ActionTypes';
-/*
-export const productosReducer = (
-    state = {
-        errMessage: null,
-        products:[],
-        isLoading:true
-    },
-    action) =>{
+
+
+import PRODUCTOS from '../DB/Products'
+export const productosReducer = (state = {isLoading:true,errMessage:null,products:[]},action) =>{
     switch(action.type){
         case ActionTypes.ADD_PRODUCTS:
-            return {...state,isLoading:false,products:action.payload};
+            return{...state,isLoading:false,products:action.payload};
         case ActionTypes.PRODUCTS_FAILED:
             return{...state,isLoading:false,errMessage:action.payload};
         case ActionTypes.PRODUCTS_LOADING:
-            return{...state,isLoading:true,errMessage:null,products:[]};
-        default:
             return state;
-    }
-}
-*/
-
-import PRODUCTOS from '../DB/Products'
-export const productosReducer = (state = PRODUCTOS,action) =>{
-    switch(action.type){
         default:
             return state;
     }

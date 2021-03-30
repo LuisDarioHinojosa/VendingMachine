@@ -38,11 +38,7 @@ PurchaseRouter.route('/')
         );
     }  
 )
-/*
-.put(
 
-)
-*/
 .delete(
     (req,res,next) =>{
         connection.query('delete from purchase_track',
@@ -75,26 +71,6 @@ PurchaseRouter.route('/:id')
         );
     }
 );
-/*
-.post(
-    (req,res,next) =>{
-        console.log('POST operation not suported on /purchases/'+req.params.id + "\nerror: 403");
-    }
-)
-.put(    
-    (req,res,next) =>{
-        const id = req.params;
-        console.log('PUT operation not suported on /purchases/'+req.params.id + "\nerror: 403");
 
-    }
-)
-.delete(
-    (req,res,next) =>{
-        const id = req.params;
-        console.log('DELETE operation not suported on /purchases/'+req.params.id + "\nerror: 403");
-
-    }
-);
-*/
 
 module.exports = PurchaseRouter;
