@@ -4,11 +4,12 @@ const EmployeeRouter = express.Router();
 
 const connector = require('./DV_connector');
 
+const cors = require('./cors/corsSetup');
 
 EmployeeRouter.use(express.json());
 
-EmployeeRouter.route('/')
-.get(
+EmployeeRouter.route('/').options(cors.corsWithOptions,(req,res) =>{res.sendStatus(200);})
+.get(cors.cors,
     (req,res,next) =>{
         connection.query('select * from employees',
             (err,rows,fields) => {
@@ -25,7 +26,7 @@ EmployeeRouter.route('/')
     }
 )
 
-.post(
+.post(cors.corsWithOptions,
     (req,res,next) =>{
         const {name,emp_id,password} = req.body;
         const querry = `CALL PUSH_EMPLOYEE(?,?,?);`;
@@ -45,7 +46,7 @@ EmployeeRouter.route('/')
     }    
 )
 
-.put(
+.put(cors.corsWithOptions,
     (req,res,next) =>{
         const {emp_id,account} = req.body;
         const querry = `CALL PUT_EMPLOYEE(?,?);`;
@@ -63,7 +64,7 @@ EmployeeRouter.route('/')
     }    
 )
 
-.delete(
+.delete(cors.corsWithOptions,
     (req,res,next) =>{
         connection.query('delete from employees',
             (err,rows,fields) => {
@@ -81,8 +82,8 @@ EmployeeRouter.route('/')
 );
 
 
-EmployeeRouter.route('/:id')
-.get(
+EmployeeRouter.route('/:id').options(cors.corsWithOptions,(req,res) =>{res.sendStatus(200);})
+.get(cors.corsWithOptions,
     (req,res,next) =>{
         const {id} = req.params;
         connection.query('select * from employees where emp_id = ?',[id],
@@ -112,7 +113,7 @@ EmployeeRouter.route('/:id')
     }
 )
 */
-.delete(
+.delete(cors.corsWithOptions,
     (req,res,next) =>{
         const {id} = req.params;
         connection.query('delete from employees where emp_id = ?',[id],

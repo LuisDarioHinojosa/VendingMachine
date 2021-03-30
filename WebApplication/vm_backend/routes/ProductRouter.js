@@ -3,9 +3,10 @@ const connection = require('./DV_connector');
 const ProductRouter = express.Router();
 
 const connector = require('./DV_connector');
+const cors = require('./cors/corsSetup');
 
-ProductRouter.route('/')
-.get(
+ProductRouter.route('/').options(cors.corsWithOptions,(req,res) =>{res.sendStatus(200);})
+.get(cors.cors,
     (req,res,next) =>{
         connection.query('select * from products;',
             (err,rows,fields) => {
@@ -21,7 +22,7 @@ ProductRouter.route('/')
         );
     }
 )
-.post(
+.post(cors.corsWithOptions,
     (req,res,next) =>{
         const {name,supply,price,image,sat_code} = req.body;
         const querry = `CALL PUSH_PRODUCT(?,?,?,?,?);`;
@@ -39,7 +40,7 @@ ProductRouter.route('/')
         );
     }  
 )
-.put(
+.put(cors.corsWithOptions,
     (req,res,next) =>{
         const {sat_code, supply}  = req.body;
         const querry = `CALL PUT_PRODUCT(?,?);`;
@@ -56,7 +57,7 @@ ProductRouter.route('/')
         );
     }
 )
-.delete(
+.delete(cors.corsWithOptions,
     (req,res,next) =>{
         connection.query('delete from products',
             (err,rows,fields) => {
@@ -75,8 +76,8 @@ ProductRouter.route('/')
 
 
 
-ProductRouter.route('/:id')
-.get(
+ProductRouter.route('/:id').options(cors.corsWithOptions,(req,res) =>{res.sendStatus(200);})
+.get(cors.corsWithOptions,
     (req,res,next) =>{
         const {id} = req.params;
         connection.query('select * from products where sat_code = ?',[id],
@@ -105,7 +106,7 @@ ProductRouter.route('/:id')
     }
 )
 */
-.delete(
+.delete(cors.corsWithOptions,
     (req,res,next) =>{
         const {id} = req.params;
         connection.query('delete from products where sat_code = ?',[id],
