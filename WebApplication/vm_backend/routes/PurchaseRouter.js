@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const connection = require('./DV_connector');
 const PurchaseRouter = express.Router();
 
@@ -22,7 +23,9 @@ PurchaseRouter.route('/')
 )
 .post(
     (req,res,next) =>{
-        const {emp_id,sat_code,p_date} = req.body;
+        //const {emp_id,sat_code,p_date} = req.body;
+        const {emp_id,sat_code} = req.body;
+        const p_date = new Date().toISOString().slice(0, 19).replace('T', ' '); // ajustar a hora de mexico
         const querry = `CALL PUSH_PURCHASE(?,?,?);`;
 
         connection.query(querry,[emp_id,sat_code,p_date],
@@ -41,7 +44,7 @@ PurchaseRouter.route('/')
 
 .delete(
     (req,res,next) =>{
-        connection.query('delete from purchase_track',
+        connection.query('CALL DELETE_PURCHASES()',
             (err,rows,fields) => {
                 if(!err){
                     res.json(rows);
