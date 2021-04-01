@@ -1,3 +1,4 @@
+  
 import React,{Component} from 'react';
 import { Card, CardTitle, CardText, CardImg, CardImgOverlay, Button, Container,Row,Col
 ,Modal,ModalBody,ModalFooter,ModalHeader, timeoutsShape,Label} 
@@ -43,8 +44,7 @@ class EmpLogin extends Component{
     handleLogin(values){
         let utilisitaeur = values["username"];
         let motdupas = values["password"];
-        let user = this.props.empleados.filter((person) => (person.emp_id == utilisitaeur && person.password == motdupas))[0];
-        alert(JSON.stringify(user));
+        this.props.handleUserLogin(utilisitaeur,motdupas,this.props.empleados);
     }
 
     render(){

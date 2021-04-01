@@ -3,10 +3,9 @@ import HeaderComponent from './HeaderComponent';
 import EmpLogin from './EmpLogin';
 import Menu from './Menu';
 import {Switch, Route, Redirect , withRouter} from 'react-router-dom';
-import HandleLogin from './HandleLogin';
 import {connect} from 'react-redux';
 //import PRODUCTOS from '../DB/Products';
-import {fetchProducts,fetchEmployees} from '../redux/ActionCreators';
+import {fetchProducts,fetchEmployees,handleUserLogin} from '../redux/ActionCreators';
 
 
 
@@ -14,12 +13,15 @@ const mapStateToProps = state =>{
     return{
         empleados: state.empleados,
         productos: state.productos,
-        compras: state.compras
+        compras: state.compras,
+        autenticacion: state.authentication
     }
 }
 const mapDispatchToProps = dispatch =>({
     fetchProducts: ()=>{dispatch(fetchProducts())},
-    fetchEmployees: () =>{dispatch(fetchEmployees())}
+    fetchEmployees: () =>{dispatch(fetchEmployees())},
+    handleUserLogin: (username,password,users) => {dispatch(handleUserLogin(username,password,users))}
+
 });
 
 
@@ -43,7 +45,7 @@ class Main extends Component{
                 <HeaderComponent/>
                 <Switch>
                     <Route exact path ="/login" component={() =>
-                        <EmpLogin empleados = {this.props.empleados.employees}
+                        <EmpLogin empleados = {this.props.empleados.employees} handleUserLogin = {this.props.handleUserLogin}
                         />}/>
 
                     <Route exact path ="/menu" component={() =>

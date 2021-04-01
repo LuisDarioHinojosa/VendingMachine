@@ -4,10 +4,11 @@ const connection = require('./DV_connector');
 const PurchaseRouter = express.Router();
 
 const connector = require('./DV_connector');
+const cors = require('./cors/corsSetup');
 
 
-PurchaseRouter.route('/')
-.get(
+PurchaseRouter.route('/').options(cors.corsWithOptions,(req,res) =>{res.sendStatus(200);})
+.get(cors.cors,
     (req,res,next) =>{
         connection.query('select * from purchase_track;',
             (err,rows,fields) => {
@@ -21,7 +22,7 @@ PurchaseRouter.route('/')
         );
     }
 )
-.post(
+.post(cors.corsWithOptions,
     (req,res,next) =>{
         //const {emp_id,sat_code,p_date} = req.body;
         const {emp_id,sat_code} = req.body;
@@ -58,7 +59,7 @@ PurchaseRouter.route('/')
 );
 
 
-PurchaseRouter.route('/:id')
+PurchaseRouter.route('/:id').options(cors.corsWithOptions,(req,res) =>{res.sendStatus(200);})
 .get(
     (req,res,next) =>{
         const {id} = req.params;

@@ -92,9 +92,32 @@ export const fetchEmployees = ()=>(dispatch)=>{
 
 // USER AUTHENTICATION ACTION CREATORS
 
-export const requestLogin = (user) =>({type:ActionTypes.USER_LOGIN_REQUEST,payload:user});
-export const loginSuccess = (user) =>({type:ActionTypes.USER_LOGIN_SUCCESS,payload:user});
-export const loginFailure = (errMessage) =>({type:ActionTypes.USER_LOGIN_FAILURE,payload:errMessage});
-export const userLogout = () => ({type:ActionTypes.USER_LOGOUT});
+export const requestLogin = () =>({
+    type:ActionTypes.USER_LOGIN_REQUEST
+});
+
+export const loginSuccess = (user) =>({
+    type:ActionTypes.USER_LOGIN_SUCCESS,
+    payload:user
+});
+
+export const loginFailure = (errMessage) =>({
+    type:ActionTypes.USER_LOGIN_FAILURE,
+    payload:errMessage
+});
+
+export const userLogout = () => ({
+    type:ActionTypes.USER_LOGOUT
+});
 
 
+export const handleUserLogin = (username, password,users) => (dispatch) =>{
+
+    dispatch(requestLogin(true));
+    let user = users.filter((person) => (person.emp_id == username && person.password == password))[0];
+    if(user){
+        dispatch(loginSuccess(user));
+    }else{
+        dispatch(loginFailure("This user is not registered"));
+    }
+}
