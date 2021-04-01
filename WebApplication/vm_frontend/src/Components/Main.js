@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import HeaderComponent from './HeaderComponent';
 import EmpLogin from './EmpLogin';
+import ProtectedRoute from './ProtectedRoute';
 import Menu from './Menu';
 import {Switch, Route, Redirect , withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -47,10 +48,7 @@ class Main extends Component{
                     <Route exact path ="/login" component={() =>
                         <EmpLogin empleados = {this.props.empleados.employees} handleUserLogin = {this.props.handleUserLogin}
                         />}/>
-
-                    <Route exact path ="/menu" component={() =>
-                        <Menu 
-                        productos = {this.props.productos.products}/>}/>
+                    <ProtectedRoute path="/menu" component = {Menu} loggedIn = {this.props.autenticacion.loggedIn}/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>
@@ -58,5 +56,11 @@ class Main extends Component{
     }
 
 }
+/*
+                    <Route exact path ="/menu" component={() =>
+                        <Menu 
+                        productos = {this.props.productos.products} user = {this.props.autenticacion.user}/>}/>
+*/
+
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));

@@ -1,15 +1,17 @@
 import * as ActionTypes from './ActionTypes';
 
-export const authenticationReducer = (state = {loggedIn:false,errMessage:null,user:[]},action) =>{
+let defaultUser = {name: "default", emp_id: "default", password: "default", account: 0, admin: 0};
+
+export const authenticationReducer = (state = {loggedIn:false,errMessage:null,user:defaultUser},action) =>{
     switch(action.type){
         case ActionTypes.USER_LOGIN_REQUEST:
-            return{state};
+            return{...state,loggedIn:false,errMessage:null,user:defaultUser};
         case ActionTypes.USER_LOGIN_SUCCESS:
-            return{...state,loggedIn:true,user:action.payload,errMessage:null};
+            return{...state,loggedIn:true,errMessage:null,user:action.payload};
         case ActionTypes.USER_LOGIN_FAILURE:
-                return {...state,loggedIn:false,errMessage:action.payload,user:[]};
+                return {...state,loggedIn:false,errMessage:action.payload,user:defaultUser};
         case ActionTypes.USER_LOGOUT:
-                return {state};
+                return {...state,loggedIn:false,errMessage:null,user:defaultUser};
         default:
             return state;
     }
