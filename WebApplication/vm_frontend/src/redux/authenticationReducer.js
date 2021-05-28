@@ -1,6 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 
-let defaultUser = {name: "default", emp_id: "default", password: "default", account: 0, admin: 0};
+let defaultUser = {name: "Luis Dario", emp_id: "default", password: "default", account: 0, admin: 0};
 
 export const authenticationReducer = (state = {loggedIn:false,errMessage:null,user:defaultUser},action) =>{
     switch(action.type){

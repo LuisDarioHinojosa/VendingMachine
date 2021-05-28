@@ -48,7 +48,9 @@ class Main extends Component{
                     <Route exact path ="/login" component={() =>
                         <EmpLogin empleados = {this.props.empleados.employees} handleUserLogin = {this.props.handleUserLogin}
                         />}/>
-                    <ProtectedRoute path="/menu" component = {Menu} loggedIn = {this.props.autenticacion.loggedIn}/>
+                    <Route exact path ="/menu" component={() =>
+                        <Menu 
+                        productos = {this.props.productos.products} user = {this.props.autenticacion.user}/>}/>
                     <Redirect to="/login"/>
                 </Switch>
             </div>
@@ -60,7 +62,11 @@ class Main extends Component{
                     <Route exact path ="/menu" component={() =>
                         <Menu 
                         productos = {this.props.productos.products} user = {this.props.autenticacion.user}/>}/>
-*/
+
+                    <ProtectedRoute path="/menu" component = {Menu} loggedIn = {this.props.autenticacion.loggedIn}/>
+
+
+                        */
 
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
