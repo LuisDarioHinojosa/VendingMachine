@@ -80,7 +80,7 @@ void delayNSecond(int n)
     }
 }
 
-void servoActive(int servo, int dur)
+void servoActive(int servo)
 {
     delayNSecond(1);
     dispatchLed = 1;
@@ -130,12 +130,80 @@ void servosInit(void)
     pwm3.write(0.1);
 }
 
+// Hall Effect Sensor Functions:
+void converterInit(void)
+{
+
+    SIM->SCGC5 |= 0x2000; // clock to PORTE
+
+    PORTE->PCR[20] = 0; // PTE20 analog input
+
+    SIM->SCGC6 |= 0x8000000; // clock to ADC0
+
+    ADC0->SC2 &= ~0x40; // software trigger
+
+    // clock div by 4, long sample time, single ended 10 bit, bus clock
+
+    ADC0->CFG1 = 0x40 | 0x10 | 0x08 | 0x01;
+}
+
+// this functions uses KL25Z´channel zero to read from ky035 and return a lecture of magentic pole
+int getMagneticPoleLecture(void)
+{
+    int lecture = 0;
+    ADC0->SC1[0] = 0;
+    while (!(ADC0->SC1[0] & 0x80))
+    {
+        // wait for conversion to finish
+    }
+    lecture = ADC0->R[0]; // obtain temp lecture | clear conversion flag
+    return lecture;
+}
+
+// receibes a price and adds one each time the KY-035 sensor detects either a positive or a negative pole
+void coinCounter(int price)
+{
+    lcd.cls();
+    int count = 0;
+    int lecture;
+    do
+    {
+        lecture = getMagneticPoleLecture();
+
+        if (((lecture < 350) && (lecture > 250)) || ((lecture < 1050) && (lecture > 1000)))
+        {
+            count += 1;
+            lcd.cls();
+            lcd.printf("Coin Detected");
+            lcd.locate(0, 1);
+            lcd.printf("Count: ");
+            lcd.locate(6, 1);
+            lcd.printf("%d", count);
+            wait(3);
+            lcd.cls();
+        }
+        else
+        {
+            lcd.cls();
+            lcd.printf("Insert a Coin:");
+            lcd.locate(0, 1);
+            lcd.printf("Price: ");
+            lcd.locate(6, 1);
+            lcd.printf("%d", price);
+            wait(0.5);
+            lcd.cls();
+        }
+    } while (count < price);
+    lcd.cls();
+}
+
 int main()
 {
     char key;
     int released = 1;
     timerInit();
     servosInit();
+    converterInit();
     intro_0();
     wait_ms(2000);
     metodo1();
@@ -250,9 +318,10 @@ int main()
                 lcd.cls();
                 lcd.printf("Oreo $3 \n ");
                 lcd.printf("La lana paps\n");
+                coinCounter(3);
                 wait_ms(2000);
                 lcd.cls();
-                servoActive(1, 3);
+                servoActive(1);
                 lcd.printf("Despachado\n");
                 lcd.locate(0, 1);
                 lcd.printf("Menu-->*");
@@ -266,9 +335,10 @@ int main()
                 lcd.cls();
                 lcd.printf("Agua $2 \n ");
                 lcd.printf("La lana paps\n");
+                coinCounter(2);
                 wait_ms(2000);
                 lcd.cls();
-                servoActive(2, 3);
+                servoActive(2);
                 lcd.printf("Despachado\n");
                 lcd.locate(0, 1);
                 lcd.printf("Menu-->*");
@@ -282,9 +352,10 @@ int main()
                 lcd.cls();
                 lcd.printf("Crujitos $1 \n ");
                 lcd.printf("La lana paps\n");
+                coinCounter(1);
                 wait_ms(2000);
                 lcd.cls();
-                servoActive(3, 3);
+                servoActive(3);
 
                 lcd.printf("Despachado");
                 lcd.locate(0, 1);
