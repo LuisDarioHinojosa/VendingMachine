@@ -7,7 +7,7 @@ TextLCD lcd(PTD0, PTD2, PTD4, PTD5, PTD6, PTD7, TextLCD::LCD16x2);
 DHT11 d(PTA4);
 DigitalOut fan(PTB10);
 InterruptIn p(PTA1);
-//DigitalIn cancel(PTA2,PullUp);
+DigitalIn cancel(PTA2, PullUp);
 Keypad kpad(PTC4, PTC3, PTC0, PTC7, PTC11, PTC10, PTC6, PTC5);
 
 // PWM Init
@@ -194,16 +194,38 @@ void coinCounter(int price)
     lcd.cls();
 }
 
+void Menu(void)
+{
+    lcd.cls();
+    lcd.locate(0, 0);
+    lcd.printf("A>Stack");
+    lcd.locate(8, 0);
+    lcd.printf("B>Tem");
+    lcd.locate(0, 1);
+    lcd.printf("#>HD");
+    lcd.locate(8, 1);
+    lcd.printf("D>PROD");
+    lcd.locate(3, 0);
+}
+
 void purchase()
 {
+    lcd.cls();
     bool out = false;
     char key;
     int released = 1;
-    while (out != true)
+    metodo1();
+    wait_ms(1);
+    lcd.cls();
+    do
     {
         key = kpad.ReadKey();
+        if (key == '\*')
+        {
+            Menu();
+        }
 
-        if (key == '\0')
+        else if (key == '\0')
         {
             released = 1;
         }
@@ -212,20 +234,7 @@ void purchase()
         {
             released = 0;
 
-            if (key == '*')
-            {
-                lcd.cls();
-                lcd.locate(0, 0);
-                lcd.printf("A>Stack");
-                lcd.locate(8, 0);
-                lcd.printf("B>Tem");
-                lcd.locate(0, 1);
-                lcd.printf("#>HD");
-                lcd.locate(8, 1);
-                lcd.printf("D>PROD");
-                lcd.locate(3, 0);
-            }
-            else if (key == 'A')
+            if (key == 'A')
             {
                 lcd.cls();
                 lcd.printf("Productos\n");
@@ -303,8 +312,9 @@ void purchase()
                 servoActive(1);
                 lcd.printf("Despachado\n");
                 out = true;
-                lcd.locate(0, 1);
-                lcd.printf("Menu-->*");
+                //lcd.locate(0, 1);
+                wait(1);
+                lcd.cls();
             }
 
             else if (key == '2')
@@ -321,8 +331,9 @@ void purchase()
                 servoActive(2);
                 lcd.printf("Despachado\n");
                 out = true;
-                lcd.locate(0, 1);
-                lcd.printf("Menu-->*");
+                //lcd.locate(0, 1);
+                wait(1);
+                lcd.cls();
             }
 
             else if (key == '3')
@@ -340,8 +351,9 @@ void purchase()
 
                 lcd.printf("Despachado");
                 out = true;
-                lcd.locate(0, 1);
-                lcd.printf("Menu-->*");
+                //lcd.locate(0, 1);
+                wait(1);
+                lcd.cls();
             }
 
             else if (key == '0')
@@ -357,7 +369,7 @@ void purchase()
                 lcd.printf("pedido ");
             }
         }
-    }
+    } while (out != true && !cancel);
 }
 
 void delayMs(int n)
@@ -408,7 +420,6 @@ int main()
     converterInit();
     intro_0();
     wait_ms(2000);
-    metodo1();
     //button.rise(&purchase);
     int temp, hum, s;
 
